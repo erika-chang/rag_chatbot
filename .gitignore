@@ -1,0 +1,10 @@
+__pycache__/
+.env
+*.pyc
+models/
+
+# Ignorar arquivos de modelo grandes
+*.gguf
+*.bin
+*.pth
+*.ckpt

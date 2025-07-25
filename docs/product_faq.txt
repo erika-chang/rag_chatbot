@@ -1,0 +1,8 @@
+Pergunta: Os produtos têm garantia?
+Resposta: Sim, todos os produtos têm garantia de 1 ano contra defeitos de fabricação.
+
+Pergunta: É possível trocar por outro tamanho?
+Resposta: Sim, basta solicitar a troca em até 15 dias após o recebimento, desde que o produto esteja sem uso.
+
+Pergunta: Como saber se um produto está em estoque?
+Resposta: Se o botão "Comprar" estiver disponível no site, o produto está em estoque.
