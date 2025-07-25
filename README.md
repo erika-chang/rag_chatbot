@@ -20,15 +20,17 @@ The idea is to create a privacy-preserving assistant that can answer questions b
 ``` bash
 rag_chatbot/
 │
-├── app.py # Gradio interface
-├── ingest.py # Script to load and embed documents
-├── chat.py # RAG pipeline logic
-├── utils.py # Helper functions
-├── models/ # Directory for your local .gguf model (excluded from Git)
-├── data/ # Your input documents (PDFs, text, etc.)
-├── db/ # FAISS index will be stored here
-├── README.md # This file
-└── requirements.txt # Python dependencies
+docs/
+├── refund_policy.txt
+├── shipping_info.txt
+└── product_faq.txt
+│
+├── models/
+│   └── mistral-7b-instruct-v0.1.Q4_K_M.gguf
+│
+├── chatbot.py
+└── requirements.txt
+
 ```
 
 ## 🚀 How to Run
