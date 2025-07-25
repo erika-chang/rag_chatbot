@@ -9,7 +9,6 @@ This project implements a question-answering chatbot using:
 - 🔍 **Document retrieval** (based on local PDFs or text files)
 - 🧠 **Local LLM inference** using a `gguf` quantized model (e.g., TinyLlama)
 - 🗃️ **Vector database** with FAISS
-- 🖥️ **Gradio UI** for easy interaction
 
 ## 💡 Motivation
 
