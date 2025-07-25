@@ -9,7 +9,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 
-# 1. Carregar todos os arquivos .txt da pasta docs/
+# 1. Load all .txt files from the 'docs/' folder
 docs_path = "docs/"
 all_files = glob(os.path.join(docs_path, "*.txt"))
 
@@ -18,72 +18,73 @@ for file_path in all_files:
     loader = TextLoader(file_path)
     documents.extend(loader.load())
 
-print(f"📄 Total de arquivos carregados: {len(all_files)}")
-print(f"📚 Total de documentos: {len(documents)}")
+print(f"📄 Total files loaded: {len(all_files)}")
+print(f"📚 Total documents: {len(documents)}")
 
-# 2. Dividir todos os documentos em chunks
+# 2. Split all documents into chunks
 text_splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=50)
 texts = text_splitter.split_documents(documents)
-print(f"🧩 Total de chunks: {len(texts)}")
+print(f"🧩 Total chunks: {len(texts)}")
 
 if not texts:
-    print("⚠️ Nenhum texto encontrado. Verifique a pasta 'docs/'")
+    print("⚠️ No text found. Please check the 'docs/' folder.")
     exit()
 
 # Embeddings
 embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-# Banco vetorial
+# Vector store
 vectorstore = FAISS.from_documents(texts, embedding_model)
 
-# Modelo local
+# Local model
 MODEL_PATH = "models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
 MODEL_REPO = "TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF"
 MODEL_FILE_NAME = "tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
+
 if not os.path.exists(MODEL_PATH):
-    print(f"❌ Modelo não encontrado em {MODEL_PATH}. Iniciando download...")
+    print(f"❌ Model not found at {MODEL_PATH}. Starting download...")
     os.makedirs("models", exist_ok=True)
     cmd = [
-           "huggingface-cli", "download",
-            MODEL_REPO,
-            MODEL_FILE_NAME,
-            "--local-dir", "models",
-            "--local-dir-use-symlinks", "False"
-        ]
+        "huggingface-cli", "download",
+        MODEL_REPO,
+        MODEL_FILE_NAME,
+        "--local-dir", "models",
+        "--local-dir-use-symlinks", "False"
+    ]
     try:
         subprocess.run(cmd, check=True)
-        print("Download concluído com sucesso!")
+        print("Download completed successfully!")
     except subprocess.CalledProcessError as e:
-        print(f"Erro no download do modelo: {e}")
+        print(f"Error downloading the model: {e}")
         exit(1)
 else:
-    print("✅ Modelo encontrado localmente.")
+    print("✅ Model found locally.")
 
 llm = LlamaCpp(
     model_path=MODEL_PATH,
-    temperature=0.7,
+    temperature=0.3,
     max_tokens=200,
     top_p=0.95,
     n_ctx=1024,
     verbose=False
 )
 
-# RAG
+# RAG pipeline
 retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
-template = """
-Use as informações abaixo para responder a pergunta de forma breve e clara. Se não souber, responda 'Não sei'.
+prompt_template = """
+Use the information below to answer the question briefly and clearly. If you don't know, respond with 'I don't know'.
 
-Informações:
+Information:
 {context}
 
-Pergunta: {question}
-Resposta:
+Question: {question}
+Answer:
 """
 
 prompt = PromptTemplate(
     input_variables=["context", "question"],
-    template=template
+    template=prompt_template
 )
 
 qa_chain = RetrievalQA.from_chain_type(
@@ -94,11 +95,11 @@ qa_chain = RetrievalQA.from_chain_type(
     chain_type_kwargs={"prompt": prompt}
 )
 
-# Loop
+# Interaction loop
 while True:
-    question = input("\nPergunta: ")
-    if question.lower() in ["sair", "exit", "quit"]:
+    question = input("\nQuestion: ")
+    if question.lower() in ["exit", "quit", "sair"]:
         break
 
     answer = qa_chain.invoke({"query": question})
-    print(f"\nResposta: {answer['result']}\n")
+    print(f"\nAnswer: {answer['result']}\n")

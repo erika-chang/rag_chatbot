@@ -1,8 +1,8 @@
-Pergunta: Os produtos têm garantia?
-Resposta: Sim, todos os produtos têm garantia de 1 ano contra defeitos de fabricação.
+Question: Do the products come with a warranty?
+Answer: Yes, all products have a 1-year warranty against manufacturing defects.
 
-Pergunta: É possível trocar por outro tamanho?
-Resposta: Sim, basta solicitar a troca em até 15 dias após o recebimento, desde que o produto esteja sem uso.
+Question: Is it possible to exchange for a different size?
+Answer: Yes, you can request an exchange within 15 days after receipt, provided the product is unused.
 
-Pergunta: Como saber se um produto está em estoque?
-Resposta: Se o botão "Comprar" estiver disponível no site, o produto está em estoque.
+Question: How can I know if a product is in stock?
+Answer: If the "Buy" button is available on the website, the product is in stock.
