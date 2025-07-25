@@ -50,40 +50,11 @@ python -m venv venv
 source venv/bin/activate  # or venv\Scripts\activate on Windows
 pip install -r requirements.txt
 ```
-### 3. Add your model
-Place your .gguf model file in the models/ folder (not tracked by Git).
-You can use a model like TinyLlama.
-
-Example:
+### 3. Start the chatbot
 
 ``` bash
-models/
-└── tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
+python chatbot.py
 ```
-
-### 4. Add your documents
-Put your custom documents (PDFs, TXTs, etc.) in the data/ folder.
-
-``` bash
-data/
-└── your-documents.pdf
-```
-
-### 5. Run ingestion
-
-``` bash
-python ingest.py
-```
-
-This will parse, split, and embed your documents, storing the vectors in a local FAISS database.
-
-### 6. Start the chatbot
-
-``` bash
-python app.py
-```
-
-The Gradio interface will open in your browser at http://localhost:7860.
 
 ## 🛑 GitHub File Size Limit
 The .gguf model is excluded from version control to respect GitHub's 100MB file size limit.
